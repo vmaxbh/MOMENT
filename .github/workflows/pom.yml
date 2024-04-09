@@ -1,0 +1,43 @@
+name: Testes Biblioteca moment
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  ONS-tests-Modelo-Blackbox:
+    runs-on: ubuntu-22.04
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+        browser: [chrome]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Install modules
+        run: npm install
+      - name: Install global dependencies 
+        run: |
+          npm install -g cypress@13.6.3
+          npm install -g moment@2.29.4 
+      - name: Run end-to-end black box tests 🧪
+        uses: cypress-io/github-action@v6
+         
+        with:
+          command: npm test
+      - name: List Cypress videos
+        run: ls -la cypress/videos
+      - name: List Cypress reports
+        run: ls -la cypress/reports  
+      - name: Upload Cypress videos
+        uses: actions/upload-artifact@v3
+        with:
+          name: cypress-videos
+          path: cypress/videos/*.mp4
+      - name: Upload Cypress HTML report
+        uses: actions/upload-artifact@v3
+        with:
+          name: cypress-html-report
+          path: cypress/reports 
