@@ -21,7 +21,8 @@ jobs:
       - name: Install global dependencies 
         run: |
           npm install -g cypress@13.6.3
-          npm install -g moment@2.29.4 
+          npm install -g moment@2.29.4
+          npm install moment-timezone 
       - name: Run end-to-end black box tests 🧪
         uses: cypress-io/github-action@v6
          
